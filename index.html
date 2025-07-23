@@ -12,9 +12,10 @@
       padding: 0;
     }
 
-    html, body {
-      height: 100%;
+    html {
       scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
     }
 
     body {
@@ -68,11 +69,7 @@
       align-items: center;
       text-align: center;
       scroll-snap-align: start;
-    }
-
-    html {
-      scroll-snap-type: y mandatory;
-      overflow-y: scroll;
+      transition: transform 0.6s ease, opacity 0.6s ease;
     }
 
     .hero {
@@ -156,6 +153,13 @@
       background: #fff;
       font-size: 1rem;
       color: #333;
+    }
+
+    textarea {
+      resize: none;
+      overflow-y: auto;
+      min-height: 100px;
+      max-height: 160px; /* reduced height to avoid footer clash */
     }
 
     button[type="submit"] {
@@ -284,7 +288,6 @@
 
     document.getElementById("contact-form").addEventListener("submit", function(e) {
       e.preventDefault();
-
       const formData = new FormData(this);
       fetch("https://script.google.com/macros/s/AKfycbw0xgCl1IJwHu2hLd0whd1DSZ1i37e_xUcww56xJL_mcEG7ufb-4dp75xGUCr63qqE/exec", {
         method: "POST",
@@ -298,6 +301,15 @@
       .catch(error => {
         alert("❌ Something went wrong. Please try again later.");
       });
+    });
+
+    // Auto-grow textarea with scroll when needed
+    const textarea = document.querySelector('textarea');
+    textarea.addEventListener('input', function () {
+      this.style.height = 'auto';
+      const max = 160;
+      const scrollHeight = this.scrollHeight;
+      this.style.height = Math.min(scrollHeight, max) + 'px';
     });
   </script>
 </body>

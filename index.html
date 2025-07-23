@@ -160,7 +160,7 @@
       resize: none;
       overflow-y: auto;
       min-height: 100px;
-      max-height: 160px; /* reduced height to avoid footer clash */
+      max-height: 160px;
     }
 
     button[type="submit"] {
@@ -275,43 +275,81 @@
     <a class="footer-link" href="https://www.instagram.com/pigeonandtoast/" target="_blank">Instagram</a>
   </footer>
 
-  <script>
-    const fadeIns = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.3 });
-
-    fadeIns.forEach(el => observer.observe(el));
-
-    document.getElementById("contact-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      fetch("https://script.google.com/macros/s/AKfycbw0xgCl1IJwHu2hLd0whd1DSZ1i37e_xUcww56xJL_mcEG7ufb-4dp75xGUCr63qqE/exec", {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.text())
-      .then(result => {
-        alert("✅ Thank you! We'll reach out within 1–2 business days.");
-        e.target.reset();
-      })
-      .catch(error => {
-        alert("❌ Something went wrong. Please try again later.");
-      });
+<script>
+  const fadeIns = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
     });
+  }, { threshold: 0.3 });
 
-    // Auto-grow textarea with scroll when needed
-    const textarea = document.querySelector('textarea');
-    textarea.addEventListener('input', function () {
-      this.style.height = 'auto';
-      const max = 160;
-      const scrollHeight = this.scrollHeight;
-      this.style.height = Math.min(scrollHeight, max) + 'px';
+  fadeIns.forEach(el => observer.observe(el));
+
+  document.getElementById("contact-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    fetch("https://script.google.com/macros/s/AKfycbw0xgCl1IJwHu2hLd0whd1DSZ1i37e_xUcww56xJL_mcEG7ufb-4dp75xGUCr63qqE/exec", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+      alert("✅ Thank you! We'll reach out within 1–2 business days.");
+      e.target.reset();
+    })
+    .catch(error => {
+      alert("❌ Something went wrong. Please try again later.");
     });
-  </script>
+  });
+
+  const textarea = document.querySelector('textarea');
+  textarea.addEventListener('input', function () {
+    this.style.height = 'auto';
+    const max = 160;
+    const scrollHeight = this.scrollHeight;
+    this.style.height = Math.min(scrollHeight, max) + 'px';
+  });
+
+  // 🧈 Smooth full-page scroll — FIXED version
+  const sections = [...document.querySelectorAll("section")];
+  let isScrolling = false;
+  let current = 0;
+
+  // Update current index live with IntersectionObserver
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const index = sections.indexOf(entry.target);
+        if (index !== -1) current = index;
+      }
+    });
+  }, {
+    threshold: 0.6 // section must be 60% in view
+  });
+
+  sections.forEach(section => sectionObserver.observe(section));
+
+  function goToSection(index) {
+    if (index < 0 || index >= sections.length) return;
+    isScrolling = true;
+    sections[index].scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => isScrolling = false, 1000);
+  }
+
+  window.addEventListener("wheel", (e) => {
+    if (isScrolling) return;
+    e.preventDefault();
+    if (e.deltaY > 0) goToSection(current + 1);
+    else goToSection(current - 1);
+  }, { passive: false });
+
+  window.addEventListener("resize", () => {
+    sections[current].scrollIntoView({ behavior: "instant" });
+  });
+</script>
+
+
 </body>
 </html>

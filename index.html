@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pigeon & Toast — Websites for Small Business</title>
-  <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/pigeonandtoast/pigeonandtoast.github.io/refs/heads/main/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/pigeonandtoast/pigeonandtoast.github.io/main/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     * {
@@ -17,6 +17,7 @@
       scroll-behavior: smooth;
       scroll-snap-type: y mandatory;
       overflow-y: scroll;
+      scroll-padding-top: 80px;
     }
 
     body {
@@ -284,20 +285,32 @@
       }
     });
   }, { threshold: 0.3 });
-
   fadeIns.forEach(el => observer.observe(el));
 
-  document.getElementById("contact-form").addEventListener("submit", function(e) {
+  const form = document.getElementById("contact-form");
+  form.addEventListener("submit", function(e) {
     e.preventDefault();
-    const formData = new FormData(this);
+    const formData = new FormData(form);
     fetch("https://script.google.com/macros/s/AKfycbw0xgCl1IJwHu2hLd0whd1DSZ1i37e_xUcww56xJL_mcEG7ufb-4dp75xGUCr63qqE/exec", {
       method: "POST",
       body: formData
     })
     .then(response => response.text())
     .then(result => {
-      alert("✅ Thank you! We'll reach out within 1–2 business days.");
-      e.target.reset();
+      form.style.display = "none";
+      const confirmation = document.createElement("div");
+      confirmation.innerHTML = `
+        <h3 style="margin-bottom: 1rem; color: #4caf50;">✅ Submission Received</h3>
+        <p>Thanks for reaching out! We'll contact you within 1–2 business days.</p>
+      `;
+      confirmation.style.background = "#e8f5e9";
+      confirmation.style.padding = "2rem";
+      confirmation.style.borderRadius = "1.5rem";
+      confirmation.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.1)";
+      confirmation.style.textAlign = "center";
+      confirmation.style.maxWidth = "600px";
+      confirmation.style.margin = "2rem auto";
+      form.parentNode.appendChild(confirmation);
     })
     .catch(error => {
       alert("❌ Something went wrong. Please try again later.");
@@ -305,19 +318,18 @@
   });
 
   const textarea = document.querySelector('textarea');
-  textarea.addEventListener('input', function () {
-    this.style.height = 'auto';
-    const max = 160;
-    const scrollHeight = this.scrollHeight;
-    this.style.height = Math.min(scrollHeight, max) + 'px';
-  });
+  if (textarea) {
+    textarea.addEventListener('input', function () {
+      this.style.height = 'auto';
+      const max = 160;
+      this.style.height = Math.min(this.scrollHeight, max) + 'px';
+    });
+  }
 
-  // 🧈 Smooth full-page scroll — FIXED version
   const sections = [...document.querySelectorAll("section")];
   let isScrolling = false;
   let current = 0;
 
-  // Update current index live with IntersectionObserver
   const sectionObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -325,10 +337,7 @@
         if (index !== -1) current = index;
       }
     });
-  }, {
-    threshold: 0.6 // section must be 60% in view
-  });
-
+  }, { threshold: 0.6 });
   sections.forEach(section => sectionObserver.observe(section));
 
   function goToSection(index) {
@@ -346,10 +355,10 @@
   }, { passive: false });
 
   window.addEventListener("resize", () => {
-    sections[current].scrollIntoView({ behavior: "instant" });
+    if (sections[current]) {
+      sections[current].scrollIntoView({ behavior: "auto" });
+    }
   });
 </script>
-
-
 </body>
 </html>

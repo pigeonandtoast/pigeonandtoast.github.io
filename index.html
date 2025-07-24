@@ -21,7 +21,7 @@
 
     body {
       font-family: 'Fredoka', sans-serif;
-      background: #fffaf2;
+      background: #fff8e1;
       color: #333;
       overflow-x: hidden;
     }
@@ -125,6 +125,16 @@
       transform: translateY(-5px);
     }
 
+    .plan h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-price {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
     form {
       background: #fff3e0;
       padding: 2rem;
@@ -137,7 +147,7 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    input, textarea, select {
+    input, textarea {
       padding: 1rem;
       border-radius: 0.5rem;
       border: none;
@@ -223,37 +233,72 @@
 
   <section class="hero" id="hero">
     <h1>Your <span class="highlight">Website</span>, Done Right.</h1>
-    <p style="margin-top:1rem; font-size:1.2rem; max-width:600px;">We build cheerful, clean, and effective websites for small businesses. Fun meets function — online in under a week.</p>
+    <p style="margin-top:1rem; font-size:1.2rem; max-width:600px;">
+      We build clean, effective websites for small businesses — delivered in under a week.
+    </p>
     <button class="btn-start" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Get Started</button>
   </section>
 
-  <section id="what-we-do">
+  <section id="what-we-do" style="background: #fff8dc;">
     <h2 style="font-size:2rem;">What We Do</h2>
-    <p style="margin-top:1rem; max-width:700px;">At Pigeon & Toast, we create bold and delightful websites. Whether you run a cafe, shop, or yoga studio — we’ll make you stand out with design that sings and code that works.</p>
+    <p style="margin-top:1rem; max-width:700px;">
+      At Pigeon & Toast, we create bold and delightful websites. Whether you run a cafe, shop, or yoga studio — we’ll make you stand out with thoughtful design and reliable code.
+    </p>
   </section>
 
-  <section id="pricing">
+  <section style="background: #fff8dc;">
+    <h2 style="font-size:2rem;">Who We Help</h2>
+    <p style="margin-top:1rem; max-width:700px;">
+      We work with all kinds of small businesses — bakeries, yoga studios, auto shops, plant stores, barbershops, cafes, and more.
+    </p>
+  </section>
+
+  <section style="background: #fff8dc; display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 2rem; gap: 2rem; flex-wrap: wrap;">
+    <img src="https://undraw.co/api/illustrations/27dfe0b1-0973-45b9-8c4a-d1a77db0cf2e" alt="Plant Shop" style="width: 300px; max-width: 80%; border-radius: 1rem;" />
+    <div style="max-width: 500px; text-align: left;">
+      <h2 style="font-size: 2rem;">Poppy’s Plant Shop</h2>
+      <p style="margin-top: 1rem;">We built a calming, earthy website for Poppy’s — a local plant store in Seattle. It highlights greenery, store hours, and easy contact.</p>
+    </div>
+  </section>
+
+  <section style="background: #fff8dc; display: flex; flex-direction: row-reverse; align-items: center; justify-content: center; padding: 2rem; gap: 2rem; flex-wrap: wrap;">
+    <img src="https://undraw.co/api/illustrations/7dfda944-eccd-4594-8733-f43aa2536f28" alt="Yoga Studio" style="width: 300px; max-width: 80%; border-radius: 1rem;" />
+    <div style="max-width: 500px; text-align: left;">
+      <h2 style="font-size: 2rem;">Luna Yoga Collective</h2>
+      <p style="margin-top: 1rem;">For Luna Yoga, we created a peaceful, minimal site where people can book classes, see the weekly schedule, and learn about instructors.</p>
+    </div>
+  </section>
+
+  <section style="background: #fff8dc; display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 2rem; gap: 2rem; flex-wrap: wrap;">
+    <img src="https://undraw.co/api/illustrations/f85ad918-94e6-4fd1-b1b8-0ad86829e654" alt="Espresso Bar" style="width: 300px; max-width: 80%; border-radius: 1rem;" />
+    <div style="max-width: 500px; text-align: left;">
+      <h2 style="font-size: 2rem;">Milo’s Espresso Bar</h2>
+      <p style="margin-top: 1rem;">Milo’s wanted a bold, cozy homepage with a menu, photos, and directions. We delivered a single-page site that feels like a warm latte.</p>
+    </div>
+  </section>
+
+  <section id="pricing" style="background: #fff8dc;">
     <h2 style="font-size:2rem;">Plans & Pricing</h2>
     <div class="plans">
       <div class="plan">
         <h3>Starter</h3>
-        <p>$2,500 + $15/mo</p>
+        <p class="plan-price">Starting from $2,500 + $15/mo</p>
         <p>Simple, stylish, and fast. Ideal for landing pages or basic presence.</p>
       </div>
       <div class="plan">
         <h3>Business</h3>
-        <p>$4,500 + $20/mo</p>
+        <p class="plan-price">Starting from $4,500 + $20/mo</p>
         <p>Includes SEO, forms, and everything you need to grow.</p>
       </div>
       <div class="plan">
         <h3>Storefront</h3>
-        <p>$6,500 + $35/mo</p>
+        <p class="plan-price">Starting from $6,500 + $35/mo</p>
         <p>Online store? We’ve got you. Shopping carts, inventory, and setup.</p>
       </div>
     </div>
   </section>
 
-  <section id="contact">
+  <section id="contact" style="background: #fff8dc;">
     <h2 style="font-size:2rem;">Get Started</h2>
     <p style="margin-top:1rem; max-width:700px;">Just fill this out — and we’ll get in touch.</p>
     <form id="contact-form">
@@ -261,12 +306,6 @@
       <input type="text" name="business" placeholder="Business Name" required />
       <input type="email" name="email" placeholder="Email Address" required />
       <input type="tel" name="phone" placeholder="Phone Number" required />
-      <select name="plan" required>
-        <option value="">Choose a Plan</option>
-        <option value="Starter">Starter</option>
-        <option value="Business">Business</option>
-        <option value="Storefront">Storefront</option>
-      </select>
       <textarea name="details" placeholder="Tell us what you need..." required></textarea>
       <button type="submit">Submit</button>
       <div class="spinner" id="spinner"></div>

@@ -290,35 +290,31 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-size: 200% 200%;
-            animation: typewriter 3s steps(13) 2.5s both, textGradient 3s ease infinite 5.5s;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            display: inline-block;
             overflow: hidden;
             white-space: nowrap;
-            width: 0;
-            border-right: 3px solid #FF6B6B;
         }
 
-        @keyframes typewriter {
-            0% {
-                width: 0;
-            }
-            100% {
-                width: 100%;
-            }
-        }
-
-        @keyframes blinkCursor {
-            0%, 50% {
-                border-color: #FF6B6B;
-            }
-            51%, 100% {
-                border-color: transparent;
-            }
+        .hero-title.typing {
+            animation: textGradient 3s ease infinite 3.5s;
         }
 
         .hero-title::after {
-            content: '';
-            animation: blinkCursor 1s infinite 2.5s;
+            content: '|';
+            color: #FF6B6B;
+            animation: blinkCursor 1s infinite;
+            margin-left: 5px;
+        }
+
+        .hero-title.typing-complete::after {
+            display: none;
+        }
+
+        @keyframes blinkCursor {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
 
         @keyframes textGradient {
@@ -332,7 +328,7 @@
             color: #2d3748;
             line-height: 1.6;
             opacity: 0;
-            animation: subtitleFade 1s ease 3s both;
+            animation: subtitleFade 1s ease 6s both;
         }
 
         @keyframes subtitleFade {
@@ -354,7 +350,7 @@
             position: relative;
             overflow: hidden;
             opacity: 0;
-            animation: buttonFade 1s ease 3.5s both;
+            animation: buttonFade 1s ease 6.5s both;
         }
 
         @keyframes buttonFade {
@@ -612,13 +608,22 @@
         }
 
         .service-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            display: inline-block;
-            animation: iconBounce 2s ease-in-out infinite;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: iconFloat 2s ease-in-out infinite;
         }
 
-        @keyframes iconBounce {
+        .service-icon svg {
+            width: 50px;
+            height: 50px;
+            fill: #4ECDC4;
+        }
+
+        @keyframes iconFloat {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
@@ -649,10 +654,12 @@
         }
 
         .service-features li::before {
-            content: '✨';
+            content: '✓';
             position: absolute;
             left: 0;
             top: 0;
+            color: #4ECDC4;
+            font-weight: bold;
         }
 
         /* Process Section */
@@ -738,49 +745,69 @@
             box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
         }
 
-        /* Team Section */
-        .team-section {
+        /* Guarantee Section */
+        .guarantee-section {
             margin: 6rem 0;
         }
 
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .team-card {
+        .guarantee-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 3rem;
             text-align: center;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(78, 205, 196, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        .team-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(31, 38, 135, 0.3);
+        .guarantee-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(255, 107, 107, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .team-avatar {
-            width: 120px;
-            height: 120px;
+        .guarantee-card:hover::before {
+            opacity: 1;
+        }
+
+        .guarantee-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(45deg, #4ECDC4, #45B7D1);
             border-radius: 50%;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
-            animation: avatarPulse 3s ease-in-out infinite;
+            animation: guaranteePulse 3s ease-in-out infinite;
         }
 
-        @keyframes avatarPulse {
+        @keyframes guaranteePulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
+        }
+
+        .guarantee-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        .guarantee-description {
+            font-size: 1.2rem;
+            color: #4a5568;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         /* Contact Section */
@@ -815,7 +842,8 @@
         }
 
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -828,7 +856,8 @@
         }
 
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #FF6B6B;
             background: rgba(255, 255, 255, 0.2);
@@ -925,8 +954,7 @@
                 gap: 1rem;
             }
             
-            .services-grid,
-            .team-grid {
+            .services-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -1095,7 +1123,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#process">Process</a></li>
-                <li><a href="#team">Team</a></li>
+                <li><a href="#guarantee">Guarantee</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -1104,12 +1132,12 @@
             <!-- Hero Section -->
             <section id="home" class="hero-section">
                 <div class="glass-card hero-content">
-                    <h1 class="hero-title">Pigeon & Toast</h1>
+                    <h1 class="hero-title" id="heroTitle">Pigeon & Toast</h1>
                     <p class="hero-subtitle">
-                        Where whimsical creativity meets fresh innovation. We're a budding creative studio ready to bring your wildest ideas to life with a splash of color, a dash of magic, and the perfect amount of quirkiness.
+                        A digital agency that builds distinctive websites and develops strategic branding solutions. We combine creative vision with technical expertise to deliver results that drive growth and engagement.
                     </p>
                     <button class="cta-button pulse-button" onclick="scrollToSection('contact')">
-                        Let's Create Magic Together ✨
+                        Start Your Project
                     </button>
                 </div>
             </section>
@@ -1140,75 +1168,99 @@
                     <h2 class="section-title">What We Create</h2>
                     <div class="services-grid">
                         <div class="service-card fade-in-left">
-                            <div class="service-icon">🎨</div>
-                            <h3 class="service-title">Visual Identity</h3>
-                            <p class="service-description">We craft unique visual identities that tell your story in colors, shapes, and symbols that stick in people's minds.</p>
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12,17.56L16.07,16.43L16.62,10.33H9.38L9.2,8.3H16.8L17,6.31H7L7.56,12.32H14.45L14.22,14.9L12,15.5L9.78,14.9L9.64,13.24H7.64L7.93,16.43L12,17.56M4.07,3H19.93L18.5,19.2L12,21L5.5,19.2L4.07,3Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Web Development</h3>
+                            <p class="service-description">Custom websites, e-commerce platforms, and web applications built with modern technologies and optimized for performance.</p>
                             <ul class="service-features">
-                                <li>Logo design & branding</li>
-                                <li>Color palette development</li>
-                                <li>Typography selection</li>
-                                <li>Brand guidelines</li>
-                                <li>Business card design</li>
+                                <li>Custom website development</li>
+                                <li>E-commerce solutions (Shopify, WooCommerce)</li>
+                                <li>WordPress development</li>
+                                <li>Mobile-responsive design</li>
+                                <li>Performance optimization</li>
                             </ul>
                         </div>
                         <div class="service-card fade-in-up">
-                            <div class="service-icon">💫</div>
-                            <h3 class="service-title">Web Experiences</h3>
-                            <p class="service-description">Digital spaces that feel alive, engaging, and absolutely delightful to explore. Your website should be as unique as you are.</p>
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Brand Identity</h3>
+                            <p class="service-description">Strategic branding solutions that create memorable identities and establish strong market presence for your business.</p>
                             <ul class="service-features">
-                                <li>Custom website design</li>
-                                <li>Interactive animations</li>
-                                <li>Mobile-first approach</li>
-                                <li>User experience optimization</li>
-                                <li>Creative landing pages</li>
+                                <li>Logo design & brand identity</li>
+                                <li>Brand strategy & positioning</li>
+                                <li>Visual identity systems</li>
+                                <li>Brand guidelines</li>
+                                <li>Brand refresh & redesign</li>
                             </ul>
                         </div>
                         <div class="service-card fade-in-right">
-                            <div class="service-icon">🌈</div>
-                            <h3 class="service-title">Creative Content</h3>
-                            <p class="service-description">From social media graphics to illustrations, we create content that makes people stop scrolling and start engaging.</p>
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M5,3C3.89,3 3,3.89 3,5V19C3,20.11 3.89,21 5,21H19C20.11,21 21,20.11 21,19V5C21,3.89 20.11,3 19,3H5M5,5H19V19H5V5M7,7V9H17V7H7M7,11V13H17V11H7M7,15V17H14V15H7Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Graphic Design</h3>
+                            <p class="service-description">Professional graphic design services for digital and print media that communicate your message effectively.</p>
                             <ul class="service-features">
+                                <li>Marketing materials design</li>
                                 <li>Social media graphics</li>
-                                <li>Custom illustrations</li>
-                                <li>Poster & flyer design</li>
-                                <li>Digital artwork</li>
-                                <li>Creative campaigns</li>
+                                <li>Print design (brochures, flyers)</li>
+                                <li>Packaging design</li>
+                                <li>Digital illustrations</li>
                             </ul>
                         </div>
                         <div class="service-card fade-in-left">
-                            <div class="service-icon">🚀</div>
-                            <h3 class="service-title">Creative Consulting</h3>
-                            <p class="service-description">Sometimes you just need a fresh pair of eyes and a burst of creative energy to take your project to the next level.</p>
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">SEO & Marketing</h3>
+                            <p class="service-description">Search engine optimization and digital marketing strategies to increase visibility and drive qualified traffic.</p>
                             <ul class="service-features">
-                                <li>Creative brainstorming</li>
-                                <li>Design feedback & review</li>
-                                <li>Brand strategy guidance</li>
-                                <li>Project planning</li>
-                                <li>Creative problem solving</li>
+                                <li>Search engine optimization (SEO)</li>
+                                <li>Local SEO optimization</li>
+                                <li>Content marketing strategy</li>
+                                <li>Google Ads management</li>
+                                <li>Analytics & reporting</li>
                             </ul>
                         </div>
                         <div class="service-card fade-in-up">
-                            <div class="service-icon">✨</div>
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V7.5H5V5H19M5,19V9.5H19V19H5Z"/>
+                                </svg>
+                            </div>
                             <h3 class="service-title">Print Design</h3>
-                            <p class="service-description">Beautiful printed materials that people actually want to keep. Because sometimes, magic happens when pixels meet paper.</p>
+                            <p class="service-description">Professional print design services for business materials, marketing collateral, and promotional items.</p>
                             <ul class="service-features">
-                                <li>Brochure & catalog design</li>
+                                <li>Business cards & stationery</li>
+                                <li>Brochures & catalogs</li>
+                                <li>Posters & banners</li>
                                 <li>Packaging design</li>
-                                <li>Magazine layouts</li>
-                                <li>Event materials</li>
-                                <li>Custom stationery</li>
+                                <li>Trade show materials</li>
                             </ul>
                         </div>
                         <div class="service-card fade-in-right">
-                            <div class="service-icon">🎪</div>
-                            <h3 class="service-title">Event Branding</h3>
-                            <p class="service-description">Make your events unforgettable with cohesive branding that creates atmosphere and builds excitement from the first invitation.</p>
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M10,17L16,12L10,7V17Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="service-title">Consulting</h3>
+                            <p class="service-description">Strategic consulting services to help optimize your digital presence and develop effective marketing strategies.</p>
                             <ul class="service-features">
-                                <li>Event identity design</li>
-                                <li>Invitation design</li>
-                                <li>Signage & banners</li>
-                                <li>Digital event assets</li>
-                                <li>Promotional materials</li>
+                                <li>Digital strategy consulting</li>
+                                <li>Website audits & optimization</li>
+                                <li>Brand positioning strategy</li>
+                                <li>Marketing plan development</li>
+                                <li>Technology recommendations</li>
                             </ul>
                         </div>
                     </div>
@@ -1218,38 +1270,38 @@
             <!-- Process Section -->
             <section id="process" class="process-section">
                 <div class="glass-card fade-in-up">
-                    <h2 class="section-title">Our Creative Journey</h2>
+                    <h2 class="section-title">Our Development Process</h2>
                     <div class="process-timeline">
                         <div class="timeline-line"></div>
                         
                         <div class="timeline-item fade-in-left">
                             <div class="timeline-content">
-                                <h3>🗣️ Listen & Dream</h3>
-                                <p>We start by really listening to your vision, goals, and wildest creative dreams. This is where we get excited about the possibilities and start brewing ideas.</p>
+                                <h3>Discovery & Planning</h3>
+                                <p>You tell us what you need and we sort it all out. We analyze your requirements, research your market, and create a comprehensive project plan that aligns with your goals.</p>
                             </div>
                             <div class="timeline-number">1</div>
                         </div>
                         
                         <div class="timeline-item fade-in-right">
                             <div class="timeline-content">
-                                <h3>🎨 Explore & Sketch</h3>
-                                <p>Time to get our hands dirty! We explore different creative directions, sketch concepts, and play with colors, shapes, and ideas until something magical clicks.</p>
+                                <h3>Design & Approval</h3>
+                                <p>Our graphic designers plan everything out and present designs for your approval. We create wireframes, mockups, and prototypes to ensure the final product meets your vision.</p>
                             </div>
                             <div class="timeline-number">2</div>
                         </div>
                         
                         <div class="timeline-item fade-in-left">
                             <div class="timeline-content">
-                                <h3>✨ Create & Refine</h3>
-                                <p>We bring the best concepts to life, adding layers of detail, personality, and that special Pigeon & Toast sparkle that makes everything feel just right.</p>
+                                <h3>Development & Build</h3>
+                                <p>Our web developers code it or build it with WordPress, Shopify, or custom solutions. We focus on clean code, performance optimization, and responsive design.</p>
                             </div>
                             <div class="timeline-number">3</div>
                         </div>
                         
                         <div class="timeline-item fade-in-right">
                             <div class="timeline-content">
-                                <h3>🚀 Launch & Celebrate</h3>
-                                <p>The big moment! We help you launch your new creative work into the world and celebrate another successful flight from our creative nest.</p>
+                                <h3>Launch & Support</h3>
+                                <p>We can provide hosting and maintenance for $45/month, or hand the project off to you. Either way, we ensure a smooth launch and provide ongoing support options.</p>
                             </div>
                             <div class="timeline-number">4</div>
                         </div>
@@ -1257,29 +1309,15 @@
                 </div>
             </section>
 
-            <!-- Team Section -->
-            <section id="team" class="team-section">
+            <!-- Guarantee Section -->
+            <section id="guarantee" class="guarantee-section">
                 <div class="glass-card fade-in-up">
-                    <h2 class="section-title">Meet the Flock</h2>
-                    <div class="team-grid">
-                        <div class="team-card fade-in-left">
-                            <div class="team-avatar">🐦</div>
-                            <h3>The Pigeon</h3>
-                            <p style="color: #4a5568; margin-bottom: 1rem;">Creative Visionary</p>
-                            <p style="color: #4a5568; line-height: 1.6;">Always on the lookout for inspiration, our Pigeon brings fresh perspectives from unexpected places and isn't afraid to think differently about design challenges.</p>
-                        </div>
-                        <div class="team-card fade-in-up">
-                            <div class="team-avatar">🍞</div>
-                            <h3>The Toast</h3>
-                            <p style="color: #4a5568; margin-bottom: 1rem;">Creative Craftsperson</p>
-                            <p style="color: #4a5568; line-height: 1.6;">Warm, reliable, and perfectly golden, our Toast ensures every project is crafted with care, attention to detail, and just the right amount of creative crunch.</p>
-                        </div>
-                        <div class="team-card fade-in-right">
-                            <div class="team-avatar">🌟</div>
-                            <h3>The Magic</h3>
-                            <p style="color: #4a5568; margin-bottom: 1rem;">Creative Catalyst</p>
-                            <p style="color: #4a5568; line-height: 1.6;">The spark that brings everything together, turning good ideas into great ones and making sure every project has that special something that makes people smile.</p>
-                        </div>
+                    <div class="guarantee-card">
+                        <div class="guarantee-icon">🛡️</div>
+                        <h2 class="guarantee-title">Satisfaction Guarantee</h2>
+                        <p class="guarantee-description">
+                            We stand behind our work with confidence. Within 3 days of receiving your final product, you can request a partial refund if you're not completely satisfied. Your success is our priority, and we're committed to delivering results that exceed your expectations.
+                        </p>
                     </div>
                 </div>
             </section>
@@ -1287,7 +1325,7 @@
             <!-- Contact Section -->
             <section id="contact" class="contact-section">
                 <div class="glass-card fade-in-up">
-                    <h2 class="section-title">Let's Start Something Amazing</h2>
+                    <h2 class="section-title">Let's Start Your Project</h2>
                     <div class="contact-content">
                         <div class="contact-form">
                             <form id="contactForm">
@@ -1300,35 +1338,35 @@
                                     <input type="email" id="email" name="email" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="project">Project Type</label>
-                                    <select id="project" name="project" style="width: 100%; padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); color: #2d3748; font-family: inherit;">
+                                    <label for="project">Service Needed</label>
+                                    <select id="project" name="project" required>
                                         <option value="">Select a service</option>
-                                        <option value="branding">Visual Identity & Branding</option>
-                                        <option value="web">Web Design & Development</option>
-                                        <option value="print">Print Design</option>
-                                        <option value="content">Creative Content</option>
-                                        <option value="consulting">Creative Consulting</option>
-                                        <option value="event">Event Branding</option>
-                                        <option value="other">Something Else Amazing</option>
+                                        <option value="web-development">Web Development</option>
+                                        <option value="branding">Brand Identity</option>
+                                        <option value="graphic-design">Graphic Design</option>
+                                        <option value="seo-marketing">SEO & Marketing</option>
+                                        <option value="print-design">Print Design</option>
+                                        <option value="consulting">Consulting</option>
+                                        <option value="other">Multiple Services</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="budget">Project Budget</label>
-                                    <select id="budget" name="budget" style="width: 100%; padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); color: #2d3748; font-family: inherit;">
+                                    <select id="budget" name="budget" required>
                                         <option value="">Select budget range</option>
-                                        <option value="500-1000">$500 - $1,000</option>
                                         <option value="1000-2500">$1,000 - $2,500</option>
                                         <option value="2500-5000">$2,500 - $5,000</option>
-                                        <option value="5000+">$5,000+</option>
+                                        <option value="5000-10000">$5,000 - $10,000</option>
+                                        <option value="10000+">$10,000+</option>
                                         <option value="discuss">Let's Discuss</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="message">Tell Us About Your Dream Project</label>
-                                    <textarea id="message" name="message" rows="5" placeholder="What's your vision? What excites you about this project? We'd love to hear all the details!" required></textarea>
+                                    <label for="message">Project Details</label>
+                                    <textarea id="message" name="message" rows="5" placeholder="Tell us about your project requirements, goals, and timeline..." required></textarea>
                                 </div>
                                 <button type="submit" class="cta-button pulse-button" style="width: 100%; margin-top: 1rem;">
-                                    Send Our Message Flying 🐦
+                                    Send Project Inquiry
                                 </button>
                             </form>
                         </div>
@@ -1343,22 +1381,22 @@
                             <div class="contact-item fade-in-right">
                                 <div class="contact-icon">💬</div>
                                 <div>
-                                    <h4 style="color: #2d3748; margin-bottom: 0.5rem;">Let's Chat</h4>
-                                    <p style="color: #4a5568;">We love talking about creative projects over virtual coffee!</p>
+                                    <h4 style="color: #2d3748; margin-bottom: 0.5rem;">Free Consultation</h4>
+                                    <p style="color: #4a5568;">Schedule a free consultation to discuss your project needs</p>
                                 </div>
                             </div>
                             <div class="contact-item fade-in-right">
                                 <div class="contact-icon">⚡</div>
                                 <div>
                                     <h4 style="color: #2d3748; margin-bottom: 0.5rem;">Quick Response</h4>
-                                    <p style="color: #4a5568;">We typically respond within 24 hours (often much faster!)</p>
+                                    <p style="color: #4a5568;">We typically respond within 24 hours</p>
                                 </div>
                             </div>
                             <div class="contact-item fade-in-right">
                                 <div class="contact-icon">🌍</div>
                                 <div>
                                     <h4 style="color: #2d3748; margin-bottom: 0.5rem;">Remote Ready</h4>
-                                    <p style="color: #4a5568;">Working with amazing people worldwide, one project at a time!</p>
+                                    <p style="color: #4a5568;">Working with clients worldwide</p>
                                 </div>
                             </div>
                         </div>
@@ -1386,22 +1424,12 @@
                             <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
                         </svg>
                     </a>
-                    <a href="#" class="social-link" title="Behance">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.84.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.672 1.48.672 2.45 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.67.76-.62.16-1.25.24-1.85.24H0V4.51h6.938v-.007zM16.94 16.665c.44.428 1.073.643 1.894.643.59 0 1.1-.148 1.53-.447.424-.297.68-.61.78-.94h2.588c-.403 1.28-1.048 2.2-1.9 2.75-.85.56-1.884.84-3.08.84-.837 0-1.584-.13-2.272-.4-.673-.27-1.24-.65-1.685-1.14-.444-.49-.78-1.08-1.004-1.77-.225-.69-.34-1.45-.34-2.28 0-.82.115-1.54.34-2.175.225-.63.55-1.17.975-1.605.424-.43.94-.76 1.55-1 .61-.24 1.29-.36 2.04-.36.78 0 1.454.13 2.01.405.560.27 1.03.65 1.41 1.135.38.48.655 1.05.84 1.725.18.675.27 1.405.24 2.175l-4.596-.007c.017.997.225 1.67.67 2.063h-.001zm-7.09-3.74c.456.334.684.817.684 1.444 0 .456-.17.834-.51 1.132-.34.297-.76.445-1.264.445H2.43v-3.32h6.33c.48 0 .89.1 1.275.3h-.185zm14.43-2.36c-.403-.6-.994-.9-1.77-.9-.47 0-.87.12-1.2.35-.33.23-.59.5-.78.83-.19.33-.31.67-.37 1.02-.06.35-.08.67-.08.96h4.8c-.18-1.02-.6-1.67-1.6-2.26zm-13.607-2.013c.4.25.6.72.6 1.44 0 .456-.2.83-.6 1.13-.4.3-.92.45-1.57.45H2.43v-3.46h6.33c.65 0 1.17.16 1.57.44zm9.01-4.88h4.68v1.17h-4.68V4.67z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link" title="Dribbble">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm9.568 5.302c.81 1.338 1.314 2.89 1.314 4.553 0 .447-.029.888-.084 1.321-.302-.067-3.336-.734-6.372-.331 1.295 3.556 1.822 6.454 1.943 7.064 2.207-1.49 3.878-3.762 4.199-6.607zm-5.829 8.034c-.149-.878-.735-3.953-2.131-7.58-1.363.51-2.551 1.225-3.466 2.063-.591.539-1.074 1.145-1.404 1.802-.235.465-.373.971-.373 1.514 0 2.09.896 3.982 2.347 5.316 1.398-2.169 3.275-3.115 5.027-3.115z"/>
-                        </svg>
-                    </a>
                 </div>
                 <p style="color: #4a5568; margin-bottom: 1rem;">
-                    Ready to add some color to the world, one creative project at a time.
+                    Professional digital solutions that drive results and growth.
                 </p>
                 <p style="color: #718096; font-size: 0.9rem;">
-                    © 2024 Pigeon & Toast Creative Studio. Made with ✨ and lots of ☕
+                    © 2024 Pigeon & Toast Creative Studio. All rights reserved.
                 </p>
             </div>
         </footer>
@@ -1416,12 +1444,48 @@
                 
                 loadingScreen.classList.add('hidden');
                 mainContent.classList.add('visible');
+                
+                // Start typewriter effect after loading screen disappears
+                setTimeout(() => {
+                    startTypewriter();
+                }, 500);
             }, 2000);
         });
 
+        // Fixed typewriter effect
+        function startTypewriter() {
+            const heroTitle = document.getElementById('heroTitle');
+            const text = 'Pigeon & Toast';
+            let index = 0;
+            
+            // Clear the title and make it visible
+            heroTitle.textContent = '';
+            heroTitle.style.width = 'auto';
+            heroTitle.style.whiteSpace = 'nowrap';
+            heroTitle.style.overflow = 'hidden';
+            heroTitle.style.borderRight = '3px solid #FF6B6B';
+            
+            function typeChar() {
+                if (index < text.length) {
+                    heroTitle.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeChar, 150);
+                } else {
+                    // Typing complete - remove cursor and start gradient animation
+                    setTimeout(() => {
+                        heroTitle.style.borderRight = 'none';
+                        heroTitle.classList.add('typing-complete');
+                        heroTitle.classList.add('typing');
+                    }, 1000);
+                }
+            }
+            
+            typeChar();
+        }
+
         // Custom cursor functionality
         const cursor = document.getElementById('cursor');
-        const interactiveElements = document.querySelectorAll('button, .service-card, .team-card, .nav-links a, .contact-item, .social-link, .timeline-content');
+        const interactiveElements = document.querySelectorAll('button, .service-card, .guarantee-card, .nav-links a, .contact-item, .social-link, .timeline-content');
         
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX - 10 + 'px';
@@ -1496,8 +1560,8 @@
             const data = Object.fromEntries(formData);
             
             // Simple validation
-            if (!data.name || !data.email || !data.message) {
-                alert('Please fill in all required fields! ✨');
+            if (!data.name || !data.email || !data.project || !data.budget || !data.message) {
+                alert('Please fill in all required fields!');
                 return;
             }
             
@@ -1505,27 +1569,17 @@
             const submitButton = this.querySelector('button[type="submit"]');
             const originalText = submitButton.innerHTML;
             
-            submitButton.innerHTML = 'Flying your message... 🚀';
+            submitButton.innerHTML = 'Sending inquiry...';
             submitButton.disabled = true;
             
             setTimeout(() => {
-                submitButton.innerHTML = 'Message sent! 🎉';
+                submitButton.innerHTML = 'Inquiry sent successfully!';
                 setTimeout(() => {
                     submitButton.innerHTML = originalText;
                     submitButton.disabled = false;
                     this.reset();
                 }, 2000);
             }, 1500);
-        });
-
-        // Add some fun interactions
-        document.querySelectorAll('.service-icon').forEach(icon => {
-            icon.addEventListener('click', () => {
-                icon.style.animation = 'none';
-                setTimeout(() => {
-                    icon.style.animation = 'iconBounce 2s ease-in-out infinite';
-                }, 10);
-            });
         });
 
         // Dynamic navbar background on scroll
@@ -1540,7 +1594,7 @@
             }
         });
 
-        // Add some random sparkle effects
+        // Add some sparkle effects occasionally
         function createSparkle() {
             const sparkle = document.createElement('div');
             sparkle.innerHTML = '✨';
@@ -1580,7 +1634,7 @@
         document.head.appendChild(sparkleStyle);
 
         // Create sparkles occasionally
-        setInterval(createSparkle, 5000);
+        setInterval(createSparkle, 8000);
 
         // Add hover effect to glass cards
         document.querySelectorAll('.glass-card').forEach(card => {
@@ -1593,6 +1647,15 @@
                 card.style.transform = 'translateY(0px)';
                 card.style.boxShadow = '0 8px 32px 0 rgba(31, 38, 135, 0.37)';
             });
+        });
+
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            scrollProgress.style.width = scrollPercentage + '%';
         });
     </script>
 </body>

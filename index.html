@@ -1556,91 +1556,60 @@
 
         // Form submission
         document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Replace this URL with your actual Google Apps Script web app URL
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyW7NS1A0OWHLp8AYc2r5ytKQwGQMkoMFUssNrEgARAIa_NjvtpmS97Ftw7wB6kwpeB/exec';
-    
-    // Get form data
-    const formData = new FormData(this);
-    
-    // Validate form
-    const requiredFields = ['name', 'email', 'project', 'budget', 'message'];
-    let isValid = true;
-    
-    requiredFields.forEach(field => {
-        const value = formData.get(field);
-        if (!value || value.trim() === '') {
-            isValid = false;
-        }
-    });
-    
-    if (!isValid) {
-        showMessage('Please fill in all required fields!', 'error');
-        return;
-    }
-    
-    // Show loading state
-    const submitButton = this.querySelector('button[type="submit"]');
-    const originalText = submitButton.innerHTML;
-    
-    submitButton.innerHTML = '✨ Sending inquiry...';
-    submitButton.disabled = true;
-    
-    // Submit to Google Apps Script
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: new URLSearchParams(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            showMessage(data.message, 'success');
-            this.reset(); // Clear form
+            e.preventDefault();
             
-            // Create success sparkles
-            createSuccessSparkles();
+            // Replace this URL with your actual Google Apps Script web app URL
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-_HExzGB5EG8brtUKx0gEWPUp7hzha6KljEKZV9dzVCGHjh5KQujLAG9cjUai2GwlYA/exec';
             
-            submitButton.innerHTML = '✅ Inquiry Sent!';
-            setTimeout(() => {
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            
+            // Show loading state
+            submitButton.innerHTML = 'Sending...';
+            submitButton.disabled = true;
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Submit to Google Apps Script
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                showMessage('Thank you! Your inquiry has been sent successfully.', 'success');
+                this.reset();
+            })
+            .catch(error => {
+                showMessage('Sorry, there was an error. Please try again or email us directly.', 'error');
+            })
+            .finally(() => {
                 submitButton.innerHTML = originalText;
                 submitButton.disabled = false;
-            }, 3000);
-        } else {
-            throw new Error(data.message || 'Something went wrong');
-        }
-    })
-    .catch(error => {
-        console.error('Form submission error:', error);
-        showMessage(error.message || 'Sorry, there was an error submitting your form. Please try again or email us directly.', 'error');
-        
-        submitButton.innerHTML = originalText;
-        submitButton.disabled = false;
-    });
-});
+            });
+        });
 
-function showMessage(message, type) {
-    const messagesDiv = document.getElementById('formMessages');
-    
-    messagesDiv.innerHTML = `
-        <div style="
-            padding: 1rem;
-            border-radius: 10px;
-            background: ${type === 'success' ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255, 107, 107, 0.2)'};
-            border: 1px solid ${type === 'success' ? '#4ECDC4' : '#FF6B6B'};
-            color: ${type === 'success' ? '#2d3748' : '#e53e3e'};
-            font-weight: 500;
-            animation: messageSlide 0.3s ease;
-        ">
-            ${type === 'success' ? '✅' : '❌'} ${message}
-        </div>
-    `;
-    
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-        messagesDiv.innerHTML = '';
-    }, 5000);
-}
+        function showMessage(message, type) {
+            const messagesDiv = document.getElementById('formMessages');
+            
+            messagesDiv.innerHTML = `
+                <div style="
+                    padding: 1rem;
+                    border-radius: 10px;
+                    background: ${type === 'success' ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255, 107, 107, 0.2)'};
+                    border: 1px solid ${type === 'success' ? '#4ECDC4' : '#FF6B6B'};
+                    color: ${type === 'success' ? '#2d3748' : '#e53e3e'};
+                    font-weight: 500;
+                ">
+                    ${type === 'success' ? '✅' : '❌'} ${message}
+                </div>
+            `;
+            
+            setTimeout(() => {
+                messagesDiv.innerHTML = '';
+            }, 5000);
+        }
 
 function createSuccessSparkles() {
     for (let i = 0; i < 20; i++) {
